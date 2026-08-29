@@ -1,0 +1,152 @@
+# ==============================================================================
+# Code Review Reader - Electron App
+# mise.toml - Fonte única de verdade para workflows de desenvolvimento
+# ==============================================================================
+
+[tools]
+node = "24.16.0"
+
+[env]
+NODE_ENV = "test"
+NODE_TLS_REJECT_UNAUTHORIZED = "0"
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
+FORCE_COLOR = "1"
+
+# ==============================================================================
+# ONBOARDING
+# ==============================================================================
+
+[tasks.setup]
+description = "Setup inicial: limpa, instala dependências, builda e abre o app"
+run = """
+echo ">>> [1/4] Limpando artefatos anteriores..."
+rm -rf dist
+
+echo ">>> [2/4] Instalando dependências..."
+npm install
+
+echo ">>> [3/4] Compilando main process..."
+npm run build:main
+
+echo ">>> [4/4] Iniciando app..."
+mise run dev
+"""
+
+# ==============================================================================
+# DESENVOLVIMENTO
+# ==============================================================================
+
+[tasks.dev]
+description = "Inicia app Electron completo com hot reload"
+run = """
+# Mata processos anteriores (Vite + Electron)
+lsof -ti:5173 | xargs kill -9 2>/dev/null || true
+pkill -f "electron.*code-review-reader" 2>/dev/null || true
+npm run dev:electron
+"""
+
+[tasks.debug]
+description = "Inicia app Electron com debugger Node ativo (porta 9229)"
+run = """
+# Mata processos anteriores (Vite + Electron)
+lsof -ti:5173 | xargs kill -9 2>/dev/null || true
+pkill -f "electron.*code-review-reader" 2>/dev/null || true
+npx concurrently "vite" "wait-on http://localhost:5173 && electron --inspect=9229 ."
+"""
+
+[tasks.start]
+description = "Builda e abre o app em modo produção (sem Vite, sem DevTools)"
+env = { NODE_ENV = "production" }
+run = """
+# Mata processos anteriores
+pkill -f "electron.*code-review-reader" 2>/dev/null || true
+
+echo ">>> [1/3] Verificando runtime do Electron..."
+./scripts/repair-electron-runtime.sh
+
+echo ">>> [2/3] Compilando app..."
+npm run build:main && npm run build:renderer
+
+echo ">>> [3/3] Iniciando em modo produção..."
+npx electron .
+"""
+
+# ==============================================================================
+# QUALIDADE
+# ==============================================================================
+
+[tasks.test]
+description = "Executa testes em watch mode (TDD)"
+run = "npm run test"
+
+[tasks.lint]
+description = "Executa ESLint com auto-fix"
+run = "npm run lint"
+
+# ==============================================================================
+# BUILD
+# ==============================================================================
+
+[tasks.build]
+description = "Build completo (main + renderer + package)"
+run = "npm run build"
+
+# ==============================================================================
+# CI
+# ==============================================================================
+
+[tasks.ci]
+description = "Validação completa local (espelha GitHub Actions): quality + unit+coverage + e2e + build+verify"
+env = { NODE_ENV = "test" }
+run = """
+echo "=========================================="
+echo "  Pipeline CI (espelha GitHub Actions)"
+echo "=========================================="
+echo ""
+
+echo ">>> [1/7] Verificação de tipos TypeScript..."
+npm run typecheck || { echo "FALHOU: typecheck"; exit 1; }
+echo ""
+
+echo ">>> [2/7] ESLint..."
+npm run lint || { echo "FALHOU: lint"; exit 1; }
+echo ""
+
+echo ">>> [3/7] Testes unitários com cobertura..."
+npm run test:coverage || { echo "FALHOU: testes unitários"; exit 1; }
+echo ""
+
+echo ">>> [4/7] Build main + renderer..."
+npm run build:main && npm run build:renderer || { echo "FALHOU: build"; exit 1; }
+echo ""
+
+echo ">>> [5/7] Garantindo browsers Playwright (idempotente)..."
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=0 npx playwright install chromium || { echo "FALHOU: playwright install"; exit 1; }
+echo ""
+
+echo ">>> [6/7] Testes E2E (Playwright)..."
+npm run test:e2e || { echo "FALHOU: testes e2e"; exit 1; }
+echo ""
+
+echo ">>> [7/7] Verificando artefatos de build..."
+test -d dist/main || { echo "FALHOU: dist/main ausente"; exit 1; }
+test -d dist/renderer || { echo "FALHOU: dist/renderer ausente"; exit 1; }
+echo "    dist/main e dist/renderer OK."
+echo ""
+
+echo "=========================================="
+echo "  CI Completo - Tudo passou!"
+echo "=========================================="
+"""
+
+# ==============================================================================
+# AUTO-BOOTSTRAP — instala Node + npm deps pendentes ao entrar na pasta
+# ==============================================================================
+
+[hooks]
+enter = """
+mise install --quiet
+if [ ! -d node_modules ] || [ package-lock.json -nt node_modules/.package-lock.json ]; then
+  npm install
+fi
+"""

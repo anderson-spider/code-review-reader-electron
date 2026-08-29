@@ -1,0 +1,290 @@
+# ============================================
+# Dependencies
+# ============================================
+node_modules/
+bower_components/
+jspm_packages/
+.npm
+.yarn
+.yarn-integrity
+.pnp
+.pnp.js
+
+# ============================================
+# Build Outputs
+# ============================================
+dist/
+dist-electron/
+release/
+out/
+build/
+*.app/
+*.dmg
+*.zip
+*.tar.gz
+*.AppImage
+*.deb
+*.rpm
+*.exe
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# Runtime Data
+# ============================================
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ============================================
+# Editor Directories and Files
+# ============================================
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*.swn
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+*.stackdump
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Environment Variables
+# ============================================
+.env
+.env.*
+!.env.example
+!.env.template
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# ============================================
+# Test Coverage
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+.coverage
+htmlcov/
+junit.xml
+test-results/
+playwright-report/
+playwright/.cache/
+
+# ============================================
+# TypeScript
+# ============================================
+*.tsbuildinfo
+.tsbuildinfo
+.eslintcache
+
+# ============================================
+# Electron Specific
+# ============================================
+.electron-builder/
+electron-builder-debug.yml
+.electron-vue/
+
+# ============================================
+# Vite
+# ============================================
+.vite/
+.vite-temp/
+.vite-cache/
+vite.config.*.timestamp-*
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+.rollup.cache/
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# ============================================
+# Package Manager
+# ============================================
+# package-lock.json  # Tracked for reproducible CI builds
+yarn.lock
+pnpm-lock.yaml
+.pnpm-store/
+
+# ============================================
+# mise (Development Environment)
+# ============================================
+.mise.lock
+.mise.local.toml
+
+# ============================================
+# Claude Code
+# ============================================
+.claude/*
+!.claude/skills/
+
+# ============================================
+# Optional: Keep lock files for production
+# ============================================
+# If you want to track lock files for reproducible builds,
+# comment out the Package Manager section above and uncomment:
+# !package-lock.json
+# !yarn.lock
+# !pnpm-lock.yaml
+
+# ============================================
+# Security and Secrets
+# ============================================
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+secrets.json
+credentials.json
+*.config.local.*
+.env.production
+
+# ============================================
+# Database
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# ============================================
+# Backup Files
+# ============================================
+*.backup
+*.bak
+*.old
+*.orig
+
+# ============================================
+# Archive Files
+# ============================================
+*.7z
+*.rar
+*.iso
+
+# ============================================
+# Debugging
+# ============================================
+.vscode-test/
+chrome-user-data/
+.chromium-browser-snapshots/
+
+# ============================================
+# Documentation Generation
+# ============================================
+.docusaurus/
+.cache-loader/
+
+# ============================================
+# Implementation Plans (local only)
+# ============================================
+docs/plans/
+docs/superpowers/
+
+# ============================================
+# Miscellaneous
+# ============================================
+.turbo/
+.next/
+.nuxt/
+.out/
+.vercel/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.yarn-metadata.json
+.eslintrc.cache
+tsconfig.tsbuildinfo
+logs/
+screenshot-fix/image.png
+

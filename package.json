@@ -1,0 +1,115 @@
+{
+  "name": "code-review-reader",
+  "version": "1.3.0",
+  "description": "GitLab MR Code Review Reader powered by Codex App Server",
+  "main": "dist/main/main/index.js",
+  "author": {
+    "name": "Anderson Spider",
+    "email": "anderson-spider@users.noreply.github.com"
+  },
+  "license": "MIT",
+  "packageManager": "npm@10.8.2",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "allowScripts": {
+    "electron@35.7.5": true
+  },
+  "scripts": {
+    "dev": "vite",
+    "dev:electron": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "build": "tsc -p tsconfig.main.json && vite build && electron-builder",
+    "build:renderer": "vite build",
+    "build:main": "tsc -p tsconfig.main.json",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "release:dry": "npx semantic-release --dry-run",
+    "build:mcp": "tsc -p tsconfig.mcp.json"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "axios": "^1.6.2",
+    "clsx": "^2.1.1",
+    "electron-store": "^8.1.0",
+    "https-proxy-agent": "^7.0.6",
+    "lucide-react": "^0.559.0",
+    "socks-proxy-agent": "^8.0.5",
+    "tailwind-merge": "^3.4.0",
+    "uuid": "^9.0.1",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.0.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^4.0.15",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "electron": "^35.7.5",
+    "electron-builder": "^24.9.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jsdom": "^27.3.0",
+    "playwright": "^1.57.0",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "semantic-release": "^24.2.9",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3",
+    "vite": "^7.2.7",
+    "vitest": "^4.0.15",
+    "wait-on": "^7.2.0",
+    "zustand": "^4.4.7"
+  },
+  "build": {
+    "appId": "com.codereviewreader.app",
+    "productName": "Code Review Reader",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "resources/icon.icns",
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "resources/icon.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "resources/icon.png",
+      "category": "Development"
+    }
+  }
+}
